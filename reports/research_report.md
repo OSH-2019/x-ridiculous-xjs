@@ -1,22 +1,30 @@
 # Xjs 调研报告
 
 ## 项目成员
+
 TBC
 
 ## 项目简介
 
 TBC
+
 ## 项目背景
 
-TBC
+目前 web 的远程桌面都是基于帧传输，无法如`Xming`等基于X11的Xserver一样提供近似原生桌面的帧率体验和操作感受。（描述Xming，etc，给视频，etc）
+
+## 立项依据
+
+我们调研了用于实现web上动态绘图和双工传输的常见组件。下面将逐一进行介绍。
+
 ### 常见的远程桌面协议
 
 #### RDP
 
-专有协议，但是不是基于帧的
+专有协议，但是不是基于帧的。
+
 #### VNC
 
-基于 Remote Framebuffer 的
+基于 Remote Framebuffer 的。
 
 ### X Window System
 
@@ -32,6 +40,19 @@ X 负责管理 *Display* 和 *Screen*。When connecting a client to an X server,
 X 的绝大多数操作都是异步的，包括很多渲染操作。这些异步操作会先压在缓冲区里面，直到缓冲区满或触发flush操作。
 
 ### HTML5 Canvas & Websocket
-Place read report here
+Place read report here.
+
 ### Perf. about Javascript
-Place read report here
+Place read report here.
+
+## 前瞻性/重要性分析
+
+相对于基于帧的远程桌面客户端(例：Vnc)的优势：
+- 容易实现更高帧率，体验更好。
+- 对于部分应用可以优化带宽占用。
+
+相对于Xming等X11 Server的优势：
+- 无需安装，部署快捷。
+- 更加轻量。
+
+## 相关工作
