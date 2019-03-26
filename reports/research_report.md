@@ -57,6 +57,7 @@ VNC（*Virtual Network Computing*）是基于*Remote Framebuffer*（以下简称
 > 7.5.  Client-to-Server Messages
 >
 >   The client-to-server message types defined in this document are:
+>
 >                   +--------+--------------------------+
 >                   | Number | Name                     |
 >                   +--------+--------------------------+
