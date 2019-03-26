@@ -52,9 +52,12 @@ Place read report here.
 
 Xming 是 X server 在 Windows 上的一个实现，支持 GLX 3D 显示扩展。Xming 通过配合 SSH 的远程桌面转发功能（`X11 Forwarding`)，可以实现运行远程 Unix 主机上的 X 客户端程序。
 
-### 已有的 Javascript X server 实现
+### XNest/Xephyr
+XNest 和 Xephyr 是两个作为 X Client 的 X Server。
 
-#### X-server-js
+### 基于 NodeJS 的 X server 实现
+
+#### x-server-js
 URL: [x-server-js @ Github](https://github.com/ttaubert/x-server-js)
 
 最后一次提交：2013年9月16日
@@ -76,18 +79,25 @@ xeyes
 
 ```
 
-利用 NodeJS 在远程机器处进行 X11 Protocol - WebSocket 转发；在浏览器上实现解析 X 请求并且进行处理，与本项目设计基本相符。
+利用 NodeJS 在远程机器处进行 X11 Protocol - WebSocket 转发；在浏览器上实现解析 X 请求并且进行显示，与本项目设计基本相符。
 
 但是，项目完成度很不理想，目前仅实现了`xeyes`和`xlogo`程序所需的全部调用（共21个）；`x-server.js`中也是多处TODO。
 
 #### javascript-x-server
 URL: [javascript-x-server](https://github.com/GothAck/javascript-x-server)
 
-最后一次提交：
+最后一次提交：2015年
 
-代码量：14090 行（不包括`node_modules`文件夹）
+代码量：14090 行（不包括外部库`node_modules`文件夹）
 
+不知道为什么，刘紫檀同学没能按照`README.md`运行成功...
 
+按照主页描述，比较`x-server-js`，多了`xft`等需要 X 字体系统的支持的功能。猜测可能在服务器端渲染并且回传（？）
+
+### 基于 NodeJS 的 X Client 实现
+
+- [ntk](https://github.com/sidorares/ntk)
+- [node-x11](https://github.com/sidorares/node-x11/)
 
 ## 前瞻性/重要性分析
 
