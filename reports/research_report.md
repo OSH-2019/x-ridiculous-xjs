@@ -2,11 +2,11 @@
 
 ## 项目成员
 
-TBC
+刘紫檀 张博文 虞佳焕 汤兖霖
 
 ## 项目简介
 
-TBC
+本项目意在实现一个基于浏览器 Javascript 的 X Server，用来提供一种更流畅的远程桌面方案。
 
 ## 项目背景
 
@@ -46,6 +46,49 @@ Place read report here.
 ### Perf. about Javascript
 Place read report here.
 
+## 相关工作
+
+### Xming
+
+Xming 是 X server 在 Windows 上的一个实现，支持 GLX 3D 显示扩展。Xming 通过配合 SSH 的远程桌面转发功能（`X11 Forwarding`)，可以实现运行远程 Unix 主机上的 X 客户端程序。
+
+### 已有的 Javascript X server 实现
+
+#### X-server-js
+URL: [x-server-js @ Github](https://github.com/ttaubert/x-server-js)
+
+最后一次提交：2013年9月16日
+
+代码量：1466 行 (考虑到`bundle.js`是其它文件的简单合并，略去)
+
+```bash
+# 假设已经安装好 NodeJS, npm 和 git
+git clone https://github.com/ttaubert/x-server-js.git
+cd x-server-js
+npm install websocket # 提醒：用 NodeJS 淘宝源可以加速；npmjs.org 慢的够呛
+node x-server.js
+
+# 然后在浏览器打开 example/index.html
+
+# 建立 WebSocket 连接之后再运行 X11 Client，否则会报错（无力吐槽）
+export DISPLAY=localhost:1 # depending on the listening port, localhost:X for port 600X
+xeyes
+
+```
+
+利用 NodeJS 在远程机器处进行 X11 Protocol - WebSocket 转发；在浏览器上实现解析 X 请求并且进行处理，与本项目设计基本相符。
+
+但是，项目完成度很不理想，目前仅实现了`xeyes`和`xlogo`程序所需的全部调用（共21个）；`x-server.js`中也是多处TODO。
+
+#### javascript-x-server
+URL: [javascript-x-server](https://github.com/GothAck/javascript-x-server)
+
+最后一次提交：
+
+代码量：14090 行（不包括`node_modules`文件夹）
+
+
+
 ## 前瞻性/重要性分析
 
 相对于基于帧的远程桌面客户端(例：Vnc)的优势：
@@ -55,5 +98,4 @@ Place read report here.
 相对于Xming等X11 Server的优势：
 - 无需安装，部署快捷。
 - 更加轻量。
-
-## 相关工作
+- （可选的）服务器端转发中压缩，实现更低带宽占用。
