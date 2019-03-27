@@ -119,7 +119,7 @@ X 基于的客户端/服务器架构隔离了不同硬件和不同设备带来�
 
 X 的竞争者主要为`Wayland`。`Wayland`相比于 X 有如下优势：
 
-#### 核心 X 协议
+#### 核心 X 协议概述
 
 X 负责管理 *Display* 和 *Screen*。
 
@@ -132,6 +132,10 @@ X 的绝大多数操作都是异步的，包括很多渲染操作。这些异步
 X 核心协议的全部 Request 和 Event，请参见[X11ReqAndEvents](X11ReqAndEvents.md)。
 
 查看可用字体（Via `fontconfig`）：`fc-list :lang=zh`
+
+#### X11 核心协议分析
+
+请参见[X11Protocol](X11Protocol.md)
 
 #### Composite
 
