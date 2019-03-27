@@ -123,8 +123,8 @@ ListHosts
 SetAccessControl 
 SetCloseDownMode 
 KillClient
-```
 NoOperation
+```
 
 ## Full list of events
 TBC.
