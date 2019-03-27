@@ -114,8 +114,34 @@ X 没有对音频系统的内建支持；对于音频系统，常用的组件是
 X 贯彻这些哲学贯彻的非常彻底。渲染和窗口管理上的变动基本通过添加扩展实现，而协议本身仍然与1987年的 X11 保持兼容。
 
 #### X 的缺陷和取代 X 的尝试
-X 基于的客户端/服务器架构隔离了不同硬件和不同设备带来的复杂性，但是也降低了程序运行速度，增大了图形界面的开销。
 
+X 基于的客户端/服务器架构隔离了不同硬件和不同设备带来的复杂性，但是也降低了程序运行速度，增大了图形界面的开销。同时，X11 本身没有对一个程序抓取另一个程序的输入事件的行为作出限制，这带来了一些安全上的问题。
+
+X 的竞争者主要为`Wayland`。`Wayland`相比于 X 有如下优势：
+
+#### 核心 X 协议
+
+X 负责管理 *Display* 和 *Screen*。
+
+当连接 X 服务器时，用户必须选择连接到哪个 *Display*。通过 `$DISPLAY` 或者 `-display`/`--display` 可以更改。`DISPLAY`的详细格式可以参考 X(7) 手册页。简略的讲，可以用`hostname:display.screen`；本地连接可以省略`hostname`，`.screen`如果采用默认 screen 也可以省略，得到类似`:0`的`DISPLAY`变量值。
+
+*Graphics contents*: 用于存储 X 绘图过程中的共享状态和共用值的结构。可以避免每次重复发送相同的参数。
+
+X 的绝大多数操作都是异步的，包括很多渲染操作。这些异步操作会先压在缓冲区里面，直到缓冲区满或触发flush操作。
+
+X 核心协议的全部 Request 和 Event，请参见[X11ReqAndEvents](X11ReqAndEvents.md)。
+
+查看可用字体（Via `fontconfig`）：`fc-list :lang=zh`
+
+#### Composite
+
+#### 数据流
+
+X 的数据流：
+
+![DRI CFG](dri_control_flow.png)
+
+[DRI Control Flow](http://dri.sourceforge.net/doc/dri_control_flow.html)
 
 #### 配置 X 使用 TCP 连接
 
@@ -157,20 +183,6 @@ xeyes # 此处可以直接运行程序
 - Chromium，正常操作: 1~2 MiB/s
 
 在后两者中大量用到了 PutImage 方法，可能是带宽占用大的元凶。可以考虑 PutImage 方法中转时进行压缩。
-
-#### 核心 X 协议
-
-X 负责管理 *Display* 和 *Screen*。
-
-当连接 X 服务器时，用户必须选择连接到哪个 *Display*。通过 `$DISPLAY` 或者 `-display`/`--display` 可以更改。`DISPLAY`的详细格式可以参考 X(7) 手册页。简略的讲，可以用`hostname:display.screen`；本地连接可以省略`hostname`，`.screen`如果采用默认 screen 也可以省略，得到类似`:0`的`DISPLAY`变量值。
-
-*Graphics contents*: 用于存储 X 绘图过程中的共享状态和共用值的结构。可以避免每次重复发送相同的参数。
-
-X 的绝大多数操作都是异步的，包括很多渲染操作。这些异步操作会先压在缓冲区里面，直到缓冲区满或触发flush操作。
-
-X 核心协议的全部 Request 和 Event，请参见[X11ReqAndEvents](X11ReqAndEvents.md)。
-
-查看可用字体（Via `fontconfig`）：`fc-list :lang=zh`
 
 ### HTML5 Canvas & Websocket
 [Websocket Research Report](Websocket.md)
