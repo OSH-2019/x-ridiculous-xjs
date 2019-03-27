@@ -2,7 +2,7 @@
 See [x11protocol.pdf](https://www.x.org/releases/X11R7.7/doc/xproto/x11protocol.pdf) for more
 
 ## Full list of X11R7.7 Requests
-
+```
 Requests
 CreateWindow
 ChangeWindowAttributes
@@ -122,7 +122,8 @@ ChangeHosts
 ListHosts 
 SetAccessControl 
 SetCloseDownMode 
-KillClient 
+KillClient
+```
 NoOperation
 
 ## Full list of events
