@@ -134,15 +134,16 @@ X 负责管理 *Display* 和 *Screen*。
 
 X 的绝大多数操作都是异步的，包括很多渲染操作。这些异步操作会先压在缓冲区里面，直到缓冲区满或触发flush操作。
 
-X 核心协议的全部 Request 和 Event，请参见[X11ReqAndEvent.md](https://github.com/libreliu/Xjs/report/X11ReqAndEvent.md)。
+X 核心协议的全部 Request 和 Event，请参见[X11ReqAndEvent.md](X11ReqAndEvent.md)。
 
 查看可用字体（Via `fontconfig`）：`fc-list :lang=zh`
 
 ### HTML5 Canvas & Websocket
-Place read report here.
+[Websocket Research Report](Websocket.md)
+[Canvas Research Report](Canvas.md)
 
 ### Perf. about Javascript
-Place read report here.
+[Canvas Research Report](Canvas.md)
 
 ## 相关工作
 
