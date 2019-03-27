@@ -126,13 +126,17 @@ xeyes # 此处可以直接运行程序
 
 #### 核心 X 协议
 
-X 负责管理 *Display* 和 *Screen*。When connecting a client to an X server, you must specify which display to connect to, either via the $DISPLAY environment variable or an application option such as -display or --display. The full DISPLAY syntax is documented in the X(7) man page, but a typical display syntax is: hostname:display.screen The "hostname" may be omitted for local connections, and ".screen" may also be left off to use the default screen, leaving the minimal display specification of :display, such as ":0" for the normal default X server on a machine.
+X 负责管理 *Display* 和 *Screen*。
 
-*Graphics contents*: a structure to store shared state and common values for X drawing operations, to avoid having to resend the same parameters with each request. 
+当连接 X 服务器时，用户必须选择连接到哪个 *Display*。通过 `$DISPLAY` 或者 `-display`/`--display` 可以更改。`DISPLAY`的详细格式可以参考 X(7) 手册页。简略的讲，可以用`hostname:display.screen`；本地连接可以省略`hostname`，`.screen`如果采用默认 screen 也可以省略，得到类似`:0`的`DISPLAY`变量值。
+
+*Graphics contents*: 用于存储 X 绘图过程中的共享状态和共用值的结构。可以避免每次重复发送相同的参数。
 
 X 的绝大多数操作都是异步的，包括很多渲染操作。这些异步操作会先压在缓冲区里面，直到缓冲区满或触发flush操作。
 
 X 核心协议的全部 Request 和 Event，请参见[X11ReqAndEvent.md](https://github.com/libreliu/Xjs/report/X11ReqAndEvent.md)。
+
+查看可用字体（Via `fontconfig`）：`fc-list :lang=zh`
 
 ### HTML5 Canvas & Websocket
 Place read report here.
