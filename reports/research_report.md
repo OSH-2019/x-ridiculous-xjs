@@ -272,23 +272,53 @@ X 的竞争者主要为`Wayland`。`Wayland`相比于 X 有如下优势：
 
 虽然 Wayland 已经支持 KDE 和 GNOME 桌面（通过移植其对应的 Desktop Manager，重写 Gtk 和 Qt 组件库），但是 Xorg 以其良好的兼容性和稳定性，仍然是十分流行的窗口系统选择。
 
-#### 核心 X 协议概述
-
-X 负责管理 *Display* 和 *Screen*。
+#### X 连接和编程
 
 当连接 X 服务器时，用户必须选择连接到哪个 *Display*。通过 `$DISPLAY` 或者 `-display`/`--display` 可以更改。`DISPLAY`的详细格式可以参考 X(7) 手册页。简略的讲，可以用`hostname:display.screen`；本地连接可以省略`hostname`，`.screen`如果采用默认 screen 也可以省略，得到类似`:0`的`DISPLAY`变量值。
 
-*Graphics contents*: 用于存储 X 绘图过程中的共享状态和共用值的结构。可以避免每次重复发送相同的参数。
-
-X 的绝大多数操作都是异步的，包括很多渲染操作。这些异步操作会先压在缓冲区里面，直到缓冲区满或触发 flush 操作。
-
 X 的 C 客户端编程经常使用 Xlib (libX11) 和 Xcb。前者被封装为类似本地绘图 API 的形式（类似 WinAPI），而后者则偏重于给程序员足够的控制，将何时构造和发送 X 请求的权利交给用户。
+
+X 的绝大多数操作都是异步的，包括很多渲染操作。这些异步操作在 Xlib 中会先压在缓冲区里面，直到缓冲区满或触发 flush 操作。
+
+#### X11 重要概念
+
+对全量协议的分析，请参见[X11Protocol](X11Protocol.md)，但刚刚开头。
 
 X 核心协议的全部 Request 和 Event，请参见[X11ReqAndEvents](X11ReqAndEvents.md)。
 
-#### X11 核心协议分析
+但是在阅读协议以前，*The X's New Developer Guide*说明了在 X11 协议中使用的关键对象：
+- Window
 
-请参见[X11Protocol](X11Protocol.md)。现在只有部分内容完成。
+  在 X 中，Window 只是一个可以绘制图形的，Screen 的一片区域。Window 以树形结构存储，而这棵树的根节点（Root Window）是 X 服务器创建的、覆盖全部 Screen 区域，并一直存在。
+
+  在树的每一层上，窗口都有一个叠放次序，以确定覆盖窗口时哪部分窗口可供显示。 X 客户端可以注册一个“可视情况改变”的事件，来在可视情况改变时重绘窗口。
+
+  运行于传统 X 环境的窗口在窗口可视改变时需要处理 Expose 事件。在启用 X Composite 扩展的 X 服务器上则一般不用，因为 Composite 扩展会把每个窗口的像素都保存起来，这样重绘的时候就直接调用 Composite 自己的缓冲就可以了。
+
+- Atom
+
+  为了减少公共字符串的反复传输，X 采用了一个简单的查找表机制。Atom就是一个<int, string>的map。`InternAtom`相当于给`string`找`int`，如果美欧就自动创建一个新的 ID 返回；`GetAtomName`返回`int`对应的`string`。
+
+  Atom 的命名空间是全 X Server 的——全部 X 客户端的全部操作共用一个查找表（字典）。
+
+- XID
+
+  XID（在X11协议文档里面叫`resource-id`）是 WINDOW、PIXMAP、CURSOR、FONT、GCONTEXT 和 COLORMAP 的资源编号。XID 是一个 32-bit 数字，命名空间和 Atom 一样是在 X Server 范围内全局的。 
+
+  在每个 X 客户端连接时，服务器会指派一个 XID 范围（每个客户端不重复），这样每当 X 客户端要申请新的资源时，XID 编号是客户端从没有使用的 XID 中选择的——这样客户端就不用等服务器分配一个 XID 再请求分配新资源（比如`CreateWindow`）了。
+
+- Pixmap
+
+  Pixmap 和 Window 有点像，也是一个可以绘图的区域。不过与 Window 不同的是， Pixmap 没有树状的结构，也不会直接显示在屏幕上。Pixmap 的内容可以直接拷贝到 Window 上用于显示——比如手动拷贝（`CopyArea`请求）或者指定为一个 Window 的`background-pixmap`来自动显示。Pixmap 可以存储在系统内存、显存或者客户端&服务器之间的共享内存中；Pixmap 可能被服务器移来移去，以保证显存里面缓存着最近使用的 Pixmap。用 MIT-SHM 扩展可以让 X 客户端和服务器用共享内存的方法维护 Pixmap 信息，这样做可以让客户端更新 Pixmap 更快，但也可能让 X 服务端放弃把其移动进显存，进而可能减慢显示到屏幕上的速度。
+
+- Graphics Content
+
+  用于存储 X 绘图过程中的共享状态和共用值的结构。可以避免每次重复发送相同的参数。
+
+- Grabs
+
+  为 X 提供一种加锁和「预订」机制。`Active Grabs`可以阻止其它所有 X 客户端对某个资源的操作，而`Passive Grabs`可以用来预订某资源，当某事件发生的时候，资源被转换为`Active Grabs`。这个可以用来搞热键——当某个键被按下的时候，不管有没有输入焦点，都激活某个客户端这样子。
+
 
 #### X Composite 扩展
 
@@ -562,3 +592,4 @@ URL: [javascript-x-server](https://github.com/GothAck/javascript-x-server)
 - [X11vnc](http://www.karlrunge.com/x11vnc/)
 - [RealVNC](https://www.realvnc.com/en/connect/download/viewer/)
 - [The Remote Framebuffer Protocol](https://tools.ietf.org/html/rfc6143)
+- [X.Org Concepts # WindowSystemObjects](https://www.x.org/wiki/guide/concepts/#windowsystemobjects)
