@@ -4,13 +4,13 @@
 
 ## 项目成员
 
-刘紫檀
+刘紫檀 (Zitan Liu)(**Group leader**)
 
-张博文
+张博文 (Bowen Zhang)
 
-虞佳焕
+虞佳焕 (Jiahuan Yu)
 
-汤兖霖
+汤兖霖 (Yanlin Tang)
 
 ## 项目简介
 
@@ -695,5 +695,7 @@ URL: [javascript-x-server](https://github.com/GothAck/javascript-x-server)
 - [Original AT&T-Cambridge VNC website](https://www.cl.cam.ac.uk/research/dtg/attarchive/vnc/index.html)
 - [X11vnc](http://www.karlrunge.com/x11vnc/)
 - [RealVNC](https://www.realvnc.com/en/connect/download/viewer/)
+- [Websocket](https://en.wikipedia.org/wiki/WebSocket)
+- [Websocket_API](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket)
 - [The Remote Framebuffer Protocol](https://tools.ietf.org/html/rfc6143)
 - [X.Org Concepts # WindowSystemObjects](https://www.x.org/wiki/guide/concepts/#windowsystemobjects)
