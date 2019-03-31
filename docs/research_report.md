@@ -428,6 +428,13 @@ setInterval(function(){
 
 `Websocket`在2008年完成，在2011年成为RFC 6455标准，并由RFC 7936补充协议标准，现已被绝大多数浏览器所支持。`Websocket`是基于`HTML5`的，再耽搁`TCP`连接上的全双工通讯协议。`Websocket`允许服务器和客户端之间只需一次握手就可以建立持久连接，并且客户端可以主动向客户端推送数据，两者之间可以进行双向数据交流通信。`Websocket`使用和`HTTP`相同的默认`80`端口，建立在`TLS`连接上时使用`443`端口。
 
+![websocket-architecture](files/websocket-architecture.jpg)
+
+下图为`HTTP`和 WebSocket 的对比，从中我们可以清晰地看出二者的区别。
+
+![http_vs_websocket](files/http_vs_websocket.png)
+
+
 #### `Websocket`的优点
 
 - 节约资源，加快数据同步速度。只需一次握手就可以建立持久连接，双向传送数据，避免了轮询造成的资源浪费，也加快的数据的更新速度。
