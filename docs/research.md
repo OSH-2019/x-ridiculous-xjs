@@ -4,7 +4,7 @@
 
 ## 项目成员
 
-刘紫檀 (Zitan Liu)(**Group leader**)
+刘紫檀 (Zitan Liu) (**Group leader**)
 
 张博文 (Bowen Zhang)
 
@@ -15,6 +15,12 @@
 ## 项目简介
 
 本项目意在实现一个主要基于浏览器 Javascript 的 X Server，用来提供一种更流畅的远程桌面方案。
+
+本项目由如下几个部分构成：
+
+- 通过部署在远程端的 X11 -> Websocket 转发，将远程的 X 客户端的数据封装为 Websocket 内容。
+- 通过浏览器 Javascript 进行 Websocket 解包，并且处理各种 X 请求，并且生成基于 Bitmap 的画面。
+- 将生成的 Bitmap 画面通过 Canvas 显示在浏览器上。
 
 ## 项目背景
 
