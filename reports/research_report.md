@@ -385,9 +385,21 @@ xeyes # 此处可以直接运行程序
 经过进一步观察发现，在后两者中大量用到了 PutImage 方法，是带宽占用大的元凶。可以考虑 PutImage 方法中转时进行压缩。
 
 ### Canvas
+经过组内讨论，我们决定用canvas提供的方法重写Xserver。
 #### `<Canvas>`是什么
 
 `<Canvas>`是HTML5标准中新增的标签元素，在HTML5标准之前就已经出现，最早由Apple的Safari浏览器引入，用于提供一组纯粹的2D绘图API，目前主流浏览器都已支持。`<Canvas>`相当于在HTML中嵌入了一张画布,可以用JS代码描述该区域，通过一套完整的绘图功能，从而生成动态的图形。
+
+Canvas元素对应的是HTMLCanvasElement类，继承自标准的HTMLElement类型，与普通的网页标签元素一样，存在于HTML DOM 树中，可通过CSS设置相应的布局位置和样式属性，我们称之为画布元素，通过脚本语言可以在上面绘制2D图形。
+
+使用Canvas技术，用到最多的类是*CanvasRenderingContext2D*，表示绘制上下文，相当于Java 2D中的*java.awt.Graphics2D*类，提供绘制的相关函数，如线条绘制，图形填充，文字绘制，坐标变化，缩放等等。
+
+Canvas相关类有十几个，涵盖了基本的2D绘图操作，其提供的API比较底层，我们的内核会用到这些API，并做抽象和封装，将其改写为Xserver所需要的API
+#### Canvas vs SVG
+##### HTML5中的2D图形绘制技术
+Canvas和SVG是HTML5中主要的2D图形技术，前者提供画布标签和绘制API，后者是一整套独立的矢量图形语言，成为W3C标准已经有十多年(2003.1至今)，总的来说，Canvas技术较新，从很小众发展到广泛接受，注重栅格图像处理，SVG则历史悠久，很早就成为国际标准，复杂，发展缓慢（Adobe SVG Viewer近十年没有大的更新）
+##### Canvas vs SVG
+<canvas>和<svg>都是HTML5推荐使用的图形技术，Canvas基于像素，提供2D绘制函数，是一种HTML元素类型，依赖于HTML，只能通过脚本绘制图形；SVG为矢量，提供一系列图形元素（Rect, Path, Circle, Line …），还有完整的动画，事件机制，本身就能独立使用，也可以嵌入到HTML中，SVG很早就成为了国际标准，目前的稳定版本是1.1 –http://www.w3.org/TR/SVG/ ，两者的主要特点见下面的表格：
 
 #### 为什么选择`<Canvas>`
 
