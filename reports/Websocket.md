@@ -127,7 +127,7 @@ switch (websocket.readState)
 
 ```js
 websocket.onopen = function(){
-    websocket.send('Hello OSH-2019 lab X!');
+    websocket.send('Hello OSH-2019!');
 }
 ```
 
@@ -159,7 +159,7 @@ websocket.onmessage = function(e){
 使用实例对象的`send`方法向建立连接的服务器发送数据。
 
 ```js
-websocket.send('Hello OSH-2019 lab X!');
+websocket.send('Hello OSH-2019!');
 ```
 
 除了发送文本内容之外，也可以发送`ArrayBuffer`对象。
