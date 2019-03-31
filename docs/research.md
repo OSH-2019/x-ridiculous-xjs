@@ -1,7 +1,66 @@
 # Xjs 调研报告
 
-[TOC]
-
+- [Xjs 调研报告](#xjs-%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A)
+  - [项目成员](#%E9%A1%B9%E7%9B%AE%E6%88%90%E5%91%98)
+  - [项目简介](#%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B)
+  - [项目背景](#%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF)
+  - [立项依据](#%E7%AB%8B%E9%A1%B9%E4%BE%9D%E6%8D%AE)
+    - [RDP](#rdp)
+    - [VNC](#vnc)
+    - [简介](#%E7%AE%80%E4%BB%8B)
+    - [历史与现状](#%E5%8E%86%E5%8F%B2%E4%B8%8E%E7%8E%B0%E7%8A%B6)
+    - [原理](#%E5%8E%9F%E7%90%86)
+    - [优点](#%E4%BC%98%E7%82%B9)
+    - [缺陷](#%E7%BC%BA%E9%99%B7)
+    - [VNC, Xvnc 与 X11vnc](#vnc-xvnc-%E4%B8%8E-x11vnc)
+    - [VNC 的有关改进](#vnc-%E7%9A%84%E6%9C%89%E5%85%B3%E6%94%B9%E8%BF%9B)
+      - [1. 提高客户端屏幕显示的帧率](#1-%E6%8F%90%E9%AB%98%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B1%8F%E5%B9%95%E6%98%BE%E7%A4%BA%E7%9A%84%E5%B8%A7%E7%8E%87)
+        - [1.1 屏幕更新策略](#11-%E5%B1%8F%E5%B9%95%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5)
+          - [1.1.1 显示更新的生成](#111-%E6%98%BE%E7%A4%BA%E6%9B%B4%E6%96%B0%E7%9A%84%E7%94%9F%E6%88%90)
+          - [1.1.2 显示更新的驱动模式](#112-%E6%98%BE%E7%A4%BA%E6%9B%B4%E6%96%B0%E7%9A%84%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%BC%8F)
+      - [1.2 VNC 中的屏幕更新策略](#12-vnc-%E4%B8%AD%E7%9A%84%E5%B1%8F%E5%B9%95%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5)
+      - [2. 改进图像修改区域检测算法](#2-%E6%94%B9%E8%BF%9B%E5%9B%BE%E5%83%8F%E4%BF%AE%E6%94%B9%E5%8C%BA%E5%9F%9F%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95)
+        - [2.1 传统的基于屏幕扫描顺序的检测算法](#21-%E4%BC%A0%E7%BB%9F%E7%9A%84%E5%9F%BA%E4%BA%8E%E5%B1%8F%E5%B9%95%E6%89%AB%E6%8F%8F%E9%A1%BA%E5%BA%8F%E7%9A%84%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95)
+        - [2.2 分层修改区域检测算法](#22-%E5%88%86%E5%B1%82%E4%BF%AE%E6%94%B9%E5%8C%BA%E5%9F%9F%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95)
+        - [2.3 间隔扫描检测算法](#23-%E9%97%B4%E9%9A%94%E6%89%AB%E6%8F%8F%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95)
+      - [3. 压缩编码算法](#3-%E5%8E%8B%E7%BC%A9%E7%BC%96%E7%A0%81%E7%AE%97%E6%B3%95)
+    - [X Window System](#x-window-system)
+      - [概述](#%E6%A6%82%E8%BF%B0)
+      - [X 的设计哲学](#x-%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6)
+      - [X 的缺陷和取代 X 的尝试](#x-%E7%9A%84%E7%BC%BA%E9%99%B7%E5%92%8C%E5%8F%96%E4%BB%A3-x-%E7%9A%84%E5%B0%9D%E8%AF%95)
+      - [X 连接和编程](#x-%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BC%96%E7%A8%8B)
+      - [X11 重要概念](#x11-%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5)
+      - [X Composite 扩展](#x-composite-%E6%89%A9%E5%B1%95)
+      - [数据流](#%E6%95%B0%E6%8D%AE%E6%B5%81)
+      - [配置 X 使用 TCP 连接](#%E9%85%8D%E7%BD%AE-x-%E4%BD%BF%E7%94%A8-tcp-%E8%BF%9E%E6%8E%A5)
+      - [X 抓包分析](#x-%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90)
+    - [Canvas](#canvas)
+      - [Canvas是什么](#canvas%E6%98%AF%E4%BB%80%E4%B9%88)
+      - [Canvas vs SVG](#canvas-vs-svg)
+        - [HTML5 中的 2D 图形绘制技术](#html5-%E4%B8%AD%E7%9A%84-2d-%E5%9B%BE%E5%BD%A2%E7%BB%98%E5%88%B6%E6%8A%80%E6%9C%AF)
+      - [为什么选择 Canvas](#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9-canvas)
+      - [简单案例](#%E7%AE%80%E5%8D%95%E6%A1%88%E4%BE%8B)
+    - [WebSocket](#websocket)
+      - [WebSocket 建立的初衷](#websocket-%E5%BB%BA%E7%AB%8B%E7%9A%84%E5%88%9D%E8%A1%B7)
+      - [WebSocket 的概念和定义](#websocket-%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%AE%9A%E4%B9%89)
+      - [WebSocket 的优点](#websocket-%E7%9A%84%E4%BC%98%E7%82%B9)
+      - [WebSocket 通信协议](#websocket-%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE)
+      - [WebSocket 用法的简单示例](#websocket-%E7%94%A8%E6%B3%95%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B)
+        - [构造函数，实例化 WebSocket 对象，实现客户端与服务器的连接](#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B%E5%8C%96-websocket-%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%BF%9E%E6%8E%A5)
+        - [实例的当前状态](#%E5%AE%9E%E4%BE%8B%E7%9A%84%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81)
+        - [指定连接成功后的回调函数](#%E6%8C%87%E5%AE%9A%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E5%90%8E%E7%9A%84%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0)
+        - [指定连接关闭后的回调函数](#%E6%8C%87%E5%AE%9A%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD%E5%90%8E%E7%9A%84%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0)
+        - [指定收到服务器数据后的回调函数](#%E6%8C%87%E5%AE%9A%E6%94%B6%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%95%B0%E6%8D%AE%E5%90%8E%E7%9A%84%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0)
+        - [发送数据](#%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE)
+        - [指定报错时的回调函数](#%E6%8C%87%E5%AE%9A%E6%8A%A5%E9%94%99%E6%97%B6%E7%9A%84%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0)
+  - [相关工作](#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C)
+    - [Xming](#xming)
+    - [XNest/Xephyr](#xnestxephyr)
+    - [x-server-js](#x-server-js)
+    - [javascript-x-server](#javascript-x-server)
+    - [基于 NodeJS 的客户端实现](#%E5%9F%BA%E4%BA%8E-nodejs-%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%9E%E7%8E%B0)
+  - [前瞻性/重要性分析](#%E5%89%8D%E7%9E%BB%E6%80%A7%E9%87%8D%E8%A6%81%E6%80%A7%E5%88%86%E6%9E%90)
+  - [参考文献](#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE)
 ## 项目成员
 
 刘紫檀 (Zitan Liu) (**Group leader**)
@@ -18,8 +77,8 @@
 
 本项目由如下几个部分构成：
 
-- 通过部署在远程端的 X11 -> Websocket 转发，将远程的 X 客户端的数据封装为 Websocket 内容。
-- 通过浏览器 Javascript 进行 Websocket 解包，并且处理各种 X 请求，并且生成基于 Bitmap 的画面。
+- 通过部署在远程端的 X11 -> WebSocket 转发，将远程的 X 客户端的数据封装为 WebSocket 内容。
+- 通过浏览器 Javascript 进行 WebSocket 解包，并且处理各种 X 请求，并且生成基于 Bitmap 的画面。
 - 将生成的 Bitmap 画面通过 Canvas 显示在浏览器上。
 
 ## 项目背景
@@ -77,7 +136,7 @@ Server 发送小方块的帧缓存给 Client，在最简单的情况，VNC协议
 
 VNC 默认使用 TCP 端口5900至5906。一个 Server 可以在5900端口用“监听模式”连接一个 Client, 使用“监听模式”的一个好处是 Server 不需要设置防火墙。
 
-**UNIX 上的 VNC 称为 xvnc，同时扮演两种角色：对 X Window System 的应用程序来说它是 X Server，对于 VNC Client 来说它是 VNC Server.**
+**UNIX 上的 VNC 称为 Xvnc，同时扮演两种角色：对 X Window System 的应用程序来说它是 X Server，对于 VNC Client 来说它是 VNC Server.**
 
 <div align="center">
 <img src="files/Xvnc.gif">
@@ -95,9 +154,9 @@ VNC 默认使用 TCP 端口5900至5906。一个 Server 可以在5900端口用“
 - VNC 对于简单的远程控制几乎完美，但是缺少对于大机构的桌面帮助功能，主要是日志记录和安全功能无法满足对大机构的桌面帮助功能。
 - 因为 VNC 本来是开发用在局域网的环境，因此用在互联网上存在安全问题。不过 VNC 可设计以 SSH 或 VPN 传输，以增加安全性。有些 VNC 软件，如 UltraVNC，更进一步支持 Active Directory 及 NTLM 的账号密码认证。
 
-### VNC, XVNC 与 X11VNC
+### VNC, Xvnc 与 X11vnc
 
-XVNC 同时具有 X Server 和 VNC Server 的功能。可以在没有物理显示器的情况下渲染 X System 的画面，并使用与一般 VNC 一致的技术手段传送给 VNC Client.
+Xvnc 同时具有 X Server 和 VNC Server 的功能。可以在没有物理显示器的情况下渲染 X System 的画面，并使用与一般 VNC 一致的技术手段传送给 VNC Client.
 
 X11VNC 仅抓取正在运行的 X System 的画面，自身并没有渲染的功能，和 VNC 没有实质性的区别，但对进行了安全强化，引入了 SSL 连接等实用的安全特性。
 
@@ -341,9 +400,9 @@ xeyes # 此处可以直接运行程序
 ### Canvas
 经过组内讨论，我们决定用 Canvas 提供的方法重写 Xserver。
 
-#### <canvas>是什么
+#### Canvas是什么
 
-`<canvas>`是 HTML5 标准中新增的标签元素，并在 HTML5 标准之前就已经出现。Canvas 最早由 Apple 的Safari浏览器引入，用于提供一组纯粹的 2D 绘图 API。目前主流浏览器都已支持 Canvas。<canvas>相当于在HTML中嵌入了一张画布,可以用JS代码描述该区域，通过一套完整的绘图功能生成动态的图形。
+`Canvas`是 HTML5 标准中新增的标签元素，并在 HTML5 标准之前就已经出现。Canvas 最早由 Apple 的Safari浏览器引入，用于提供一组纯粹的 2D 绘图 API。目前主流浏览器都已支持 Canvas。Canvas相当于在HTML中嵌入了一张画布,可以用JS代码描述该区域，通过一套完整的绘图功能生成动态的图形。
 
 Canvas 元素对应的是 *HTMLCanvasElement* 类，其继承自标准的 *HTMLElement* 类型。与普通的网页标签元素一样，Canvas 存在于 *HTML DOM* 树中。可通过CSS设置相应的布局位置和样式属性（画布元素），并可以通过脚本语言在上面绘制2D图形。
 
@@ -360,15 +419,15 @@ Canvas 和 SVG 是 HTML5 中主要的2D图形技术。前者提供画布标签�
 两者的主要特点见下面的表格：
 
 <div align="center">
-<img src="Canvas_Vs_SVG1.png">
+<img src="files/Canvas_Vs_SVG1.png">
 </div>
 
 <div align="center">
-<img src="Canvas_Vs_SVG2.png">
+<img src="files/Canvas_Vs_SVG2.png">
 </div>
 
 
-#### 为什么选择`<Canvas>`
+#### 为什么选择 Canvas
 
 - Canvas 提供的功能更原始，适合像素处理，动态渲染和大数据量绘制
 - 性能高，可以自己控制绘制过程，还能使用 WebGL
@@ -427,15 +486,15 @@ setInterval(function(){
 ```
 
 
-### Websocket
+### WebSocket
 
-####  Websocket 建立的初衷
+####  WebSocket 建立的初衷
 
-我们最常用的网络通信协议是`HTTP`协议，那么为什么还需要 Websocket 协议呢？这首先要从`HTTP`协议的缺陷谈起。虽然`HTTP1.1`中有`keep-alive`协议(只是把多个`HTTP`请求合并在一起)，但请求只能由客户端发起请求，服务器接收并处理，`response-request`要一一对应，但如果服务器需要不断向用户推送动态的数据，即主动推送信息，`HTTP`协议却并不能做到，因为如果客户端没有请求服务器并不能主动回应数据。解决这个问题的一种方案是由浏览器每隔一段时间就向服务器发起询问请求，以得知服务器数据是否有更新，这种方案即轮询。轮询的效率很低，服务器需要反复不断解析`HTTP`请求，而且比较浪费资源。由此， Websocket 就应运而生了。
+我们最常用的网络通信协议是`HTTP`协议，那么为什么还需要 WebSocket 协议呢？这首先要从`HTTP`协议的缺陷谈起。虽然`HTTP1.1`中有`keep-alive`协议(只是把多个`HTTP`请求合并在一起)，但请求只能由客户端发起请求，服务器接收并处理，`response-request`要一一对应，但如果服务器需要不断向用户推送动态的数据，即主动推送信息，`HTTP`协议却并不能做到，因为如果客户端没有请求服务器并不能主动回应数据。解决这个问题的一种方案是由浏览器每隔一段时间就向服务器发起询问请求，以得知服务器数据是否有更新，这种方案即轮询。轮询的效率很低，服务器需要反复不断解析`HTTP`请求，而且比较浪费资源。由此， WebSocket 就应运而生了。
 
-####  Websocket 的概念和定义
+####  WebSocket 的概念和定义
 
- Websocket 在2008年完成，在2011年成为RFC 6455标准，并由RFC 7936补充协议标准，现已被绝大多数浏览器所支持。 Websocket 是基于`HTML5`的，再耽搁`TCP`连接上的全双工通讯协议。 Websocket 允许服务器和客户端之间只需一次握手就可以建立持久连接，并且客户端可以主动向客户端推送数据，两者之间可以进行双向数据交流通信。 Websocket 使用和`HTTP`相同的默认`80`端口，建立在`TLS`连接上时使用`443`端口。
+ WebSocket 在2008年完成，在2011年成为RFC 6455标准，并由RFC 7936补充协议标准，现已被绝大多数浏览器所支持。 WebSocket 是基于`HTML5`的，再耽搁`TCP`连接上的全双工通讯协议。 WebSocket 允许服务器和客户端之间只需一次握手就可以建立持久连接，并且客户端可以主动向客户端推送数据，两者之间可以进行双向数据交流通信。 WebSocket 使用和`HTTP`相同的默认`80`端口，建立在`TLS`连接上时使用`443`端口。
 
 ![websocket-architecture](files/websocket-architecture.jpg)
 
@@ -444,16 +503,16 @@ setInterval(function(){
 ![http_vs_websocket](files/http_vs_websocket.png)
 
 
-####  Websocket 的优点
+####  WebSocket 的优点
 
 - 节约资源，加快数据同步速度。只需一次握手就可以建立持久连接，双向传送数据，避免了轮询造成的资源浪费，也加快的数据的更新速度。
-- 服务器解析的开销变小。 Websocket 协议的通信头部明显短于`HTTP`，方便服务器进行解析和数据传输。
+- 服务器解析的开销变小。 WebSocket 协议的通信头部明显短于`HTTP`，方便服务器进行解析和数据传输。
 - 可以保存状态。连接一旦建立之后，一段时间内的通信无需再进行诸如身份验证的操作，减少了一些状态信息的传输。
-- 拓展性好。 Websocket 定义了拓展，可以实现很多拓展协议和用户自定义的子协议。
-- 更好的压缩效果。相比于`HTTP`压缩， Websocket 可以利用上下文，加上一些拓展，实现更好的压缩效果。
-- 更好的二进制支持。由于 Websocket 定义了二进制帧，通信时可以发送文本，也可以直接发送二进制数据。
+- 拓展性好。 WebSocket 定义了拓展，可以实现很多拓展协议和用户自定义的子协议。
+- 更好的压缩效果。相比于`HTTP`压缩， WebSocket 可以利用上下文，加上一些拓展，实现更好的压缩效果。
+- 更好的二进制支持。由于 WebSocket 定义了二进制帧，通信时可以发送文本，也可以直接发送二进制数据。
 
-####  Websocket 通信协议
+####  WebSocket 通信协议
 
 Request:
 
@@ -474,7 +533,7 @@ Upgrade: websocket
 Connection: Upgrade
 ```
 
-这两行是浏览器通知服务器把通信协议升级为 Websocket 。
+这两行是浏览器通知服务器把通信协议升级为 WebSocket 。
 
 ```
 Sec-WebSocket-Key: sN9cRrP/n9NdMgdcy2VJFQ==
@@ -499,18 +558,18 @@ Upgrade: websocket
 Connection: Upgrade
 ```
 
-表示协议已经升级成功，之后服务器和客户端之间就按照 Websocket 协议进行通信。
+表示协议已经升级成功，之后服务器和客户端之间就按照 WebSocket 协议进行通信。
 
 
-###  WebSocket 用法的简单示例
+####  WebSocket 用法的简单示例
 
-#### 构造函数，实例化 WebSocket 对象，实现客户端与服务器的连接
+##### 构造函数，实例化 WebSocket 对象，实现客户端与服务器的连接
 
 ```js
 var websocket = new WebSocket('ws://loaclhost:8000');
 ```
 
-#### 实例的当前状态
+##### 实例的当前状态
 
 通过`websocket.readyState`返回实例当前状态。共有四种状态，分别是：
 
@@ -546,7 +605,7 @@ switch (websocket.readState)
 
 ```
 
-#### 指定连接成功后的回调函数
+##### 指定连接成功后的回调函数
 
 使用实例对象的`onopen`属性，可以指定连接成功后的回调函数。下为示例：
 
@@ -556,7 +615,7 @@ websocket.onopen = function(){
 }
 ```
 
-#### 指定连接关闭后的回调函数
+##### 指定连接关闭后的回调函数
 
 使用实例对象的`onclose`属性，可以指定连接关闭后的回调函数。
 
@@ -569,7 +628,7 @@ websocket.onclose = function(e){
 }
 ```
 
-#### 指定收到服务器数据后的回调函数
+##### 指定收到服务器数据后的回调函数
 
 使用实例对象的`onmessage`属性，可以指定收到服务器数据后的回调函数。
 
@@ -579,7 +638,7 @@ websocket.onmessage = function(e){
 }
 ```
 
-#### 发送数据
+##### 发送数据
 
 使用实例对象的`send`方法向建立连接的服务器发送数据。
 
@@ -612,7 +671,7 @@ else
 }
 ```
 
-#### 指定报错时的回调函数
+##### 指定报错时的回调函数
 
 使用实例对象的`onerror`属性，可以指定报错时的回调函数。
 
@@ -701,7 +760,7 @@ URL: [javascript-x-server](https://github.com/GothAck/javascript-x-server)
 - [Original AT&T-Cambridge VNC website](https://www.cl.cam.ac.uk/research/dtg/attarchive/vnc/index.html)
 - [X11vnc](http://www.karlrunge.com/x11vnc/)
 - [RealVNC](https://www.realvnc.com/en/connect/download/viewer/)
-- [Websocket](https://en.wikipedia.org/wiki/WebSocket)
+- [WebSocket](https://en.wikipedia.org/wiki/WebSocket)
 - [Websocket_API](https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket)
 - [The Remote Framebuffer Protocol](https://tools.ietf.org/html/rfc6143)
 - [X.Org Concepts # WindowSystemObjects](https://www.x.org/wiki/guide/concepts/#windowsystemobjects)
