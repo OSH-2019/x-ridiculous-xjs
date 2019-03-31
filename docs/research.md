@@ -402,7 +402,7 @@ xeyes # 此处可以直接运行程序
 
 #### Canvas是什么
 
-`Canvas`是 HTML5 标准中新增的标签元素，并在 HTML5 标准之前就已经出现。Canvas 最早由 Apple 的Safari浏览器引入，用于提供一组纯粹的 2D 绘图 API。目前主流浏览器都已支持 Canvas。Canvas相当于在HTML中嵌入了一张画布,可以用JS代码描述该区域，通过一套完整的绘图功能生成动态的图形。
+Canvas 是 HTML5 标准中新增的标签元素，并在 HTML5 标准之前就已经出现。Canvas 最早由 Apple 的Safari浏览器引入，用于提供一组纯粹的 2D 绘图 API。目前主流浏览器都已支持 Canvas。Canvas相当于在HTML中嵌入了一张画布,可以用JS代码描述该区域，通过一套完整的绘图功能生成动态的图形。
 
 Canvas 元素对应的是 *HTMLCanvasElement* 类，其继承自标准的 *HTMLElement* 类型。与普通的网页标签元素一样，Canvas 存在于 *HTML DOM* 树中。可通过CSS设置相应的布局位置和样式属性（画布元素），并可以通过脚本语言在上面绘制2D图形。
 
